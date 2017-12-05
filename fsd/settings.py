@@ -31,13 +31,13 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'files.apps.FilesConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'files',
 ]
 
 MIDDLEWARE = [
@@ -51,6 +51,11 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'fsd.urls'
+
+MEDIA_URL = '/uploads/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
+
+STATIC_ROOT = 'static'
 
 TEMPLATES = [
     {
