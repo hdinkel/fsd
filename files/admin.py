@@ -6,8 +6,8 @@ from django.contrib import messages
 from .models import File
 
 class FileAdmin(admin.ModelAdmin):
-    readonly_fields = ('hash', 'filesize', 'created_at', 'updated_at')
-    list_display = ('name', 'hash', 'filesize', 'created_at', 'updated_at')
+    readonly_fields = ('hash', 'uuid', 'filesize', 'created_at', 'updated_at')
+    list_display = ('name', 'hash', 'uuid', 'filesize', 'created_at', 'updated_at')
 
 #    def save_model(self, request, obj, form, change):
 #        if obj.id is None:

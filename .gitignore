@@ -103,3 +103,5 @@ venv.bak/
 # mypy
 .mypy_cache/
 
+uploads
+db.sqlite3*

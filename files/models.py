@@ -1,31 +1,39 @@
 from django.db import models
+import os
 import hashlib
+import uuid
 
 # Create your models here.
+
+def hash_upload(instance, filename):
+    instance.file.open() # make sure we're at the beginning of the file
+    contents = instance.file.read() # get the contents
+    fname, ext = os.path.splitext(filename)
+    return "{0}__{1}{2}".format(fname, create_hash(contents), ext) # assemble the filename
 
 class File(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200, blank=True, unique=False)
+    uuid = models.CharField(max_length=200, default=uuid.uuid4, unique=False, editable=False)
+    file = models.FileField(upload_to=hash_upload,) # TODO: add something like this: upload_to='documents/%Y/'); also use username?
     hash = models.CharField(max_length=200, unique=True, editable=False)
-    file = models.FileField() # TODO: add something like this: upload_to='documents/%Y/'); also use username?
     filesize = models.IntegerField(blank=True, null=True, editable=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def generate_hash(self):
+        hash = hashlib.sha256()
+#        with self.file.open() as f: # make sure we're at the beginning of the file
+        contents = self.file.read() # get the contents
+        hash.update(contents)
+        self.hash = hash.hexdigest()
+
     def save(self, *args, **kwargs):
-        super(File, self).save(*args, **kwargs)
+        self.generate_hash()
+#        super(File, self).save(*args, **kwargs)
         self.filesize = self.file.size
-        with self.file.open('rb') as f:
-            hash = hashlib.sha256()
-            if f.multiple_chunks():
-                for chunk in f.chunks():
-                    hash.update(chunk)
-                else:
-                    hash.update(f.read())
-        self.hash =  hash.hexdigest()
-        if self.name  == '':
-#            self.name = f.name
-            self.name = self.file.name
+#        if self.name  == '':
+#            self.name = self.file.name
         super(File, self).save(*args, **kwargs)
 
     def __str__(self):
