@@ -7,12 +7,23 @@ import uuid
 # Create your models here.
 
 def hash_upload(instance, filename):
+    """
+    Function to rename a file to its filename plus sha256 hash
+    This takes an instance and it's filename, computes the hash and combines
+    the hash and filename to something like:
+        Screenshot.png -> Screenshot__9876a786j694c28897347987.png
+    """
     instance.file.open() # make sure we're at the beginning of the file
     contents = instance.file.read() # get the contents
     fname, ext = os.path.splitext(filename)
     return "{0}__{1}{2}".format(fname, create_hash(contents), ext) # assemble the filename using a hash
 
 def create_hash(data):
+    """
+    calculate sha256 hash function on given data
+    >>> create_hash("testdata")
+    ce41e5246ead8bddd2a2b5bbb863db250f328be9dc5c3041481d778a32f8130d
+    """
     hash = hashlib.sha256()
     hash.update(data)
     return hash.hexdigest()
