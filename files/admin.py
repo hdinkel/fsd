@@ -3,7 +3,10 @@ from django.contrib import messages
 
 # Register your models here.
 
-from .models import File
+from .models import File, Project
+
+class ProjectAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'owner',)
 
 class FileAdmin(admin.ModelAdmin):
     readonly_fields = ('hash', 'uuid', 'filesize', 'created_at', 'updated_at')
@@ -27,3 +30,4 @@ class FileAdmin(admin.ModelAdmin):
         self.verbose_name_plural = 'Files'
 
 admin.site.register(File, FileAdmin)
+admin.site.register(Project, ProjectAdmin)
