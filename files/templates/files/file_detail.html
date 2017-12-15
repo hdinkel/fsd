@@ -1,4 +1,18 @@
 {% extends "base.html" %}
 {% block content %}
-        <h2> Test </h2>
+
+<h2> {{ object.name }} </h2>
+
+<div>
+        <ul>
+                <li> ID: {{ object.id }} </li>
+                <li> HASH: {{ object.hash }} </li>
+                <li> UUID: {{ object.uuid }} </li>
+                <li> File: {{ object.file }} </li>
+                <li> Size: {{ object.filesize|filesizeformat }} </li>
+                <li> Created: {{ object.created_at }} </li>
+                <li> Updated: {{ object.updated_at }} </li>
+        </ul>
+</div>
+
 {% endblock %}

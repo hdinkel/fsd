@@ -1,11 +1,40 @@
 {% load static %}
 <html>
 <head>
+    <link href="{% static "bootstrap.min.css" %}" rel="stylesheet">
+    <link href="{% static "bootstrap-theme.min.css" %}" rel="stylesheet">
+    <link href="{% static "style.css" %}" rel="stylesheet">
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
-    <img src="{% static "images/sitelogo.png" %}" alt="Logo" />
+    <img src="{% static "images/logo-en.png" %}" width="200px" alt="Logo" />
+    <div class="navbar navbar-fixed-top">
+	<div class="navbar-inner">
+		<div class="container">
+			<a class="brand" href="index.html">
+				Long Term Storage - Demo version				
+			</a>		
+		</div> <!-- /container -->
+	</div> <!-- /navbar-inner -->
+</div> <!-- /navbar -->
+
     {% block content %}{% endblock %}
+
+    <div class="footer" >
+        <div class="footer-inner">
+            <div class="container-fluid" >
+                <div class="row">
+                    <div class="span11">
+                        &copy; 2017 <a href="http://www.leibniz-fli.de"  target="_blank"><b>http://www.leibniz-fli.de</b></a>
+                        &nbsp;&nbsp;&middot;&nbsp;&nbsp;<a href="/affiliates" title="Affiliates">Affiliates</a>&nbsp;&nbsp;&middot;&nbsp;&nbsp;<a href="/privacy" title="Privacy policy">Privacy</a>&nbsp;&nbsp;&middot;&nbsp;&nbsp;<a href="/terms" title="Terms of use">Terms</a>&nbsp;&nbsp;&middot;&nbsp;&nbsp;<a href="/about" title="About us">About</a>
+                    </div> <!-- /span11 -->
+                </div> <!-- /row -->
+            </div> <!-- /container -->
+        </div> <!-- /footer-inner -->
+    </div> <!-- /footer -->
+      
+<script src="{% static "js/jquery-1.7.2.min.js" %}"></script>
+<script src="{% static "js/bootstrap.js" %}"></script>
 </body>
 </html>
 
