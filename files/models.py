@@ -33,6 +33,9 @@ class FileType(models.Model):
     type = models.CharField(max_length=100, blank=False, unique=False)
     ext  = models.CharField(max_length=10, blank=False, unique=False)
 
+    def __meta__(self):
+        unique_together = (("type", "ext"),)
+
 class File(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200, blank=True, unique=False)
