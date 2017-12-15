@@ -23,8 +23,7 @@ from files.views import FileList
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('files/', FileList.as_view()),
-    path('test', FileList.as_view()),
-    path('files/<int:pk>/', FileDetailView.as_view()),
+    path('files/', FileList.as_view(), name="file_list"),
+    path('files/<int:pk>/', FileDetailView.as_view(), name="file_detail"),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

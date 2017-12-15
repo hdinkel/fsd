@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 import os
 import hashlib
 import uuid
@@ -9,7 +10,7 @@ def hash_upload(instance, filename):
     instance.file.open() # make sure we're at the beginning of the file
     contents = instance.file.read() # get the contents
     fname, ext = os.path.splitext(filename)
-    return "{0}__{1}{2}".format(fname, create_hash(contents), ext) # assemble the filename
+    return "{0}__{1}{2}".format(fname, create_hash(contents), ext) # assemble the filename using a hash
 
 def create_hash(data):
     hash = hashlib.sha256()
@@ -42,3 +43,6 @@ class File(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('file_detail', args=[str(self.id)])

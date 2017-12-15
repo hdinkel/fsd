@@ -4,7 +4,7 @@
     <h2>Files</h2>
     <ul>
         {% for file in object_list %}
-            <li>{{ file.name }}</li>
+        <li><a href="{{ file.get_absolute_url }}">{{ file.name }}</a></li>
         {% endfor %}
     </ul>
 {% endblock %}
