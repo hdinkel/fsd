@@ -18,7 +18,13 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 
+from files.views import FileDetailView
+from files.views import FileList
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('files/', FileList.as_view()),
+    path('test', FileList.as_view()),
+    path('files/(?<pk>.*)$', FileDetailView.as_view()),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
