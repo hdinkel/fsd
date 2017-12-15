@@ -18,12 +18,14 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 
-from files.views import FileDetailView
 from files.views import FileList
+from files.views import FileDetailView
+from files.views import FileCreateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('files/', FileList.as_view(), name="file_list"),
     path('files/<int:pk>/', FileDetailView.as_view(), name="file_detail"),
+    path('files/<int:pk>/edit', FileCreateView.as_view(), name="file_edit"),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
