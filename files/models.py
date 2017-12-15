@@ -37,23 +37,24 @@ def create_hash(data):
 class FileType(models.Model):
     id = models.AutoField(primary_key=True)
     type = models.CharField(max_length=100, blank=False, unique=False)
-    ext = models.CharField(max_length=10, blank=False, unique=False)
+    ext = models.CharField(max_length=10, blank=True, unique=False)
 
     def __meta__(self):
         unique_together = (("type", "ext"),)
+
+    def __str__(self):
+        return "{} ({})".format(self.type, self.ext)
 
 
 class File(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200, blank=True, unique=False)
-    uuid = models.CharField(max_length=200, default=uuid.uuid4, unique=True, editable=False)
     file = models.FileField(upload_to=hash_upload,)  # TODO: add something like this: upload_to='documents/%Y/'); also use username?
-
-#    description = models.CharField(max_length=200, default=uuid.uuid4, unique=True, editable=False)
-#    comment = models.CharField(max_length=200, default=uuid.uuid4, unique=True, editable=False)
-#    type = models.Foreignkey(FileType)
-
-    hash = models.CharField(max_length=200, unique=True, editable=False)
+    type = models.ForeignKey('FileType', default=1, on_delete=models.CASCADE,)
+    description = models.TextField(max_length=200, unique=False, blank=True,)
+    comment = models.TextField(max_length=200, unique=False, blank=True, help_text='For internal use only...')
+    hash = models.CharField(max_length=200, unique=True, editable=False, help_text='Auto-Generated SHA256 Hash (based on file content)')
+    uuid = models.CharField(max_length=200, default=uuid.uuid4, unique=True, editable=False, help_text='Auto-Generated random unique ID')
     filesize = models.IntegerField(blank=True, null=True, editable=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
