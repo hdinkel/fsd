@@ -25,6 +25,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('files/', FileList.as_view()),
     path('test', FileList.as_view()),
-    path('files/(?<pk>.*)$', FileDetailView.as_view()),
+    path('files/<int:pk>/', FileDetailView.as_view()),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
