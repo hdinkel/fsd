@@ -16,7 +16,7 @@ class FileAdmin(admin.ModelAdmin):
 #        self.verbose_name_plural = 'Files'
 
 class FileTypeAdmin(admin.ModelAdmin):
-    list_display = ('id', 'type', 'ext',)
+    list_display = ('id', 'filetype', 'ext',)
 
 admin.site.register(File, FileAdmin)
 admin.site.register(Project, ProjectAdmin)

@@ -5,13 +5,6 @@ import os
 import hashlib
 import uuid
 
-# Create your models here.
-
-class Project(models.Model):
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=400, blank=False, unique=False)
-    owner = models.ForeignKey(get_user_model(), blank=True, on_delete=models.CASCADE,)
-
 def hash_upload(instance, filename):
     """
     Function to rename a file to its filename plus sha256 hash
@@ -34,23 +27,43 @@ def create_hash(data):
     hash.update(data)
     return hash.hexdigest()
 
+# Create your models here.
+
+
+PROJECT_TYPES = (
+                (1, 'Publication'),
+                (2, 'Thesis'),
+                (3, 'Collaboration'),
+                (9, 'Other'),
+                )
+class Project(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=400, blank=False, unique=False)
+    owner = models.ForeignKey(get_user_model(), blank=True, on_delete=models.CASCADE,)
+    project_type = models.CharField(max_length=100, blank=False, unique=False, choices=PROJECT_TYPES, default=1)
+    description = models.TextField(max_length=400, unique=False, blank=True,)
+
+    def __str__(self):
+        return "{}".format(self.name)
+
 class FileType(models.Model):
     id = models.AutoField(primary_key=True)
-    type = models.CharField(max_length=100, blank=False, unique=False)
+    filetype = models.CharField(max_length=100, blank=False, unique=False)
     ext = models.CharField(max_length=10, blank=True, unique=False)
 
     def __meta__(self):
-        unique_together = (("type", "ext"),)
+        unique_together = (("filetype", "ext"),)
 
     def __str__(self):
-        return "{} ({})".format(self.type, self.ext)
+        return "{} ({})".format(self.filetype, self.ext)
 
 
 class File(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200, blank=True, unique=False)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE,)
     file = models.FileField(upload_to=hash_upload,)  # TODO: add something like this: upload_to='documents/%Y/'); also use username?
-    type = models.ForeignKey('FileType', default=1, on_delete=models.CASCADE,)
+    filetype = models.ForeignKey(FileType, default=1, on_delete=models.CASCADE,)
     description = models.TextField(max_length=200, unique=False, blank=True,)
     comment = models.TextField(max_length=200, unique=False, blank=True, help_text='For internal use only...')
     hash = models.CharField(max_length=200, unique=True, editable=False, help_text='Auto-Generated SHA256 Hash (based on file content)')
