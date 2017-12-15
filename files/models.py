@@ -28,11 +28,20 @@ def create_hash(data):
     hash.update(data)
     return hash.hexdigest()
 
+class FileType(models.Model):
+    id = models.AutoField(primary_key=True)
+    type = models.CharField(max_length=100, blank=False, unique=False)
+    ext  = models.CharField(max_length=10, blank=False, unique=False)
 
 class File(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200, blank=True, unique=False)
     uuid = models.CharField(max_length=200, default=uuid.uuid4, unique=True, editable=False)
+
+#    description = models.CharField(max_length=200, default=uuid.uuid4, unique=True, editable=False)
+#    comment = models.CharField(max_length=200, default=uuid.uuid4, unique=True, editable=False)
+#    type = models.Foreignkey(FileType)
+
     file = models.FileField(upload_to=hash_upload,) # TODO: add something like this: upload_to='documents/%Y/'); also use username?
     hash = models.CharField(max_length=200, unique=True, editable=False)
     filesize = models.IntegerField(blank=True, null=True, editable=False)
