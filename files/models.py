@@ -31,10 +31,10 @@ def create_hash(data):
 
 
 PROJECT_TYPES = (
-                (1, 'Publication'),
-                (2, 'Thesis'),
-                (3, 'Collaboration'),
-                (9, 'Other'),
+                ('1', 'Publication'),
+                ('2', 'Thesis'),
+                ('3', 'Collaboration'),
+                ('9', 'Other'),
                 )
 class Project(models.Model):
     id = models.AutoField(primary_key=True)
@@ -61,7 +61,7 @@ class FileType(models.Model):
 class File(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200, blank=True, unique=False)
-    project = models.ForeignKey(Project, on_delete=models.CASCADE,)
+    project = models.ForeignKey(Project, default=1, on_delete=models.CASCADE,)
     file = models.FileField(upload_to=hash_upload,)  # TODO: add something like this: upload_to='documents/%Y/'); also use username?
     filetype = models.ForeignKey(FileType, default=1, on_delete=models.CASCADE,)
     description = models.TextField(max_length=200, unique=False, blank=True,)
