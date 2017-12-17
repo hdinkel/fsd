@@ -55,7 +55,10 @@ class FileType(models.Model):
         unique_together = (("filetype", "ext"),)
 
     def __str__(self):
-        return "{} ({})".format(self.filetype, self.ext)
+        if not self.ext:
+            return "{}".format(self.filetype)
+        else:
+            return "{} ({})".format(self.filetype, self.ext)
 
 
 class File(models.Model):
