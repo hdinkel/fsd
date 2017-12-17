@@ -8,34 +8,36 @@
           <thead>
             <tr>
             <th>ID</th>
+            <th>Filename</th>
             <th>Hash</th>
             <th>UUID</th>
             <th>Type</th>
-            <th>Filename</th>
             <th>Size</th>
             <th>Description</th>
             <th>Comment</th>
             <!-- <th>Mime</th> -->
             <th>RefDate</th>
             <th>FileDate</th>
-            <th>Submit_Date</th>
             <th>User</th>
+            <th>Project</th>
             </tr>
         </thead>
         <tbody>
         {% for object in object_list %}
         <tr>
             <td> {{ object.id }} </td>
-            <td> {{ object.hash|truncatechars:9 }}... </td>
-            <td> {{ object.uuid }} </td>
-            <td> {{ object.filetype }} </td>
             <td><a href="{{ object.get_absolute_url }}">{{ object.name }}</a></td>
+            <td> {{ object.hash|truncatechars:9 }}... </td>
+            <td> {{ object.uuid|truncatechars:9 }}... </td>
+            <td> {{ object.filetype }} </td>
             <td> {{ object.filesize|filesizeformat }} </td>
             <td> {{ object.description }} </td>
             <td> {{ object.comment }} </td>
             <td> {{ object.original_date }} </td>
-            <td> {{ object.created_at }} </td>
-            <td> {{ object.updated_at }} </td>
+            <td> {{ object.created_at }} <br/>
+                 {{ object.updated_at }} </td>
+            <td> {{ object.user }} </td>
+            <td> {{ object.project }} </td>
         </tr>
         {% endfor %}
     </tbody>
