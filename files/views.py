@@ -1,6 +1,6 @@
 from django.views.generic import DetailView, ListView, CreateView
 from django.views.generic.edit import FormView
-from django.urls import reverse_lazy, reverse
+# from django.urls import reverse_lazy, reverse
 
 from .models import File
 from files.forms import ZipfileUploadForm
@@ -18,7 +18,6 @@ class FileDetailView(DetailView):
 
 class FileList(ListView):
     model = File
-
 
 class ZipfileUploadView(FormView):
     template_name = 'files/upload-zipfile.html'

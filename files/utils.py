@@ -11,7 +11,7 @@ def extract_zipfile(zippedfile):
     and generate a Files object of each file.
     """
     z = zipfile.ZipFile(zippedfile)
-    print(os.getcwd())
+#    print(os.getcwd())
     with tempfile.TemporaryDirectory(dir=MEDIA_ROOT) as tmpdirname:
         print(tmpdirname)
         for file in z.namelist():
@@ -19,10 +19,14 @@ def extract_zipfile(zippedfile):
             z.extract(file, tmpdirname)
             tmpfilename = os.path.join(tmpdirname, file)
             print(tmpfilename)
-            os.popen('ls -lah ' + tmpdirname)
+#            os.popen('ls -lah ' + tmpdirname)
             if os.path.isfile(tmpfilename):
-                f = File.objects.create(file=tmpfilename, name=file)
-                f.save()
+                try:
+                    f = File.objects.create(file=tmpfilename, name=file)
+                    f.save()
+                except Exception:
+                    # TODO catch empty files and hash collisions
+                    pass
 
 
 if __name__ == '__main__':

@@ -24,6 +24,7 @@
         </thead>
         <tbody>
         {% for object in object_list %}
+        <tr>
             <td> {{ object.id }} </td>
             <td> {{ object.hash|truncatechars:9 }}... </td>
             <td> {{ object.uuid }} </td>
@@ -35,6 +36,7 @@
             <td> {{ object.original_date }} </td>
             <td> {{ object.created_at }} </td>
             <td> {{ object.updated_at }} </td>
+        </tr>
         {% endfor %}
     </tbody>
     </table>
