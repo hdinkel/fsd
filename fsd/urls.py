@@ -27,6 +27,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('files/', FileList.as_view(), name="file_list"),
 #    path('files/upload.zip', ZipfileUploadView.as_view(), name="upload-zipfile"),
+    path('files/upload', upload_zipfile, name="upload-file"), # TODO implement
     path('files/upload.zip', upload_zipfile, name="upload-zipfile"),
     path('files/<int:pk>/', FileDetailView.as_view(), name="file_detail"),
     path('files/<int:pk>/edit', FileCreateView.as_view(), name="file_edit"),

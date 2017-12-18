@@ -37,11 +37,14 @@ def upload_zipfile(request):
     if request.method == 'POST':
         form = ZipfileUploadForm(request.POST, request.FILES)
         if form.is_valid():
+            data = form.cleaned_data
             f = request.FILES['file_field']
+            u = request.user
+            project = data['project']
             # TODO Add try-except
             # TODO Add check for actual zipfile
-            extract_zipfile(f)
+            extract_zipfile(filename=f, username=u, project=project)
             return HttpResponseRedirect('/files/')
     else:
-        form = ZipfileUploadForm()
+        form = ZipfileUploadForm(user=request.user)
     return render(request, 'files/upload-zipfile.html', {'form': form})
