@@ -1,8 +1,10 @@
 from django.views.generic import DetailView, ListView, CreateView
 from django.views.generic.edit import FormView
 # from django.urls import reverse_lazy, reverse
+from django.core.exceptions import ValidationError
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
+import os
 
 from .models import File
 from .utils import extract_zipfile
@@ -38,12 +40,14 @@ def upload_zipfile(request):
         form = ZipfileUploadForm(request.POST, request.FILES)
         if form.is_valid():
             data = form.cleaned_data
-            f = request.FILES['file_field']
-            u = request.user
+            filename = request.FILES['file_field']
+            username = request.user
             project = data['project']
             # TODO Add try-except
-            # TODO Add check for actual zipfile
-            extract_zipfile(filename=f, username=u, project=project)
+            fileext = os.path.splitext(filename.name)[1]
+            if not fileext == '.zip':
+                raise ValidationError( ('Not a zipfile: %(filename)s'), code='invalid', params={'filename': filename}, )
+            extract_zipfile(filename=filename, username=username, project=project)
             return HttpResponseRedirect('/files/')
     else:
         form = ZipfileUploadForm(user=request.user)

@@ -8,8 +8,8 @@ class ZipfileUploadForm(forms.Form):
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
         super(ZipfileUploadForm, self).__init__(*args, **kwargs)
-        print(self.user)
-        self.fields['project'].queryset = Project.objects.filter(owner=self.user)
+#        print("User in ZipfileUploadForm: {}".format(self.user))
+#        self.fields['project'].queryset = Project.objects.filter(owner=self.user)
 
 
 # class MultifileUploadForm(forms.Form):
