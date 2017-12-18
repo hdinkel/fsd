@@ -205,5 +205,8 @@
     "groups": [],
     "user_permissions": []
   }
-}
+},
+
+{"model": "files.project", "pk": 1, "fields": {"name": "DummyProject", "owner": 1, "project_type": "1", "description": "not for actual use..."}}, 
+{"model": "files.filetype", "pk": 1, "fields": {"filetype": "Document", "ext": ""}}
 ]
