@@ -1,12 +1,14 @@
 from django import forms
-from .utils import extract_zipfile
-
 
 class ZipfileUploadForm(forms.Form):
-    name = forms.CharField()
-    message = forms.CharField(widget=forms.Textarea)
+    file_field = forms.FileField()
+    description = forms.CharField(widget=forms.Textarea)
 
-    def process_zipfile(self):
-        # send email using the self.cleaned_data dictionary
-        print('Processing ZIPfile')
-        extract_zipfile('/Users/dinkel/down/libraries.zip')
+
+class MultifileUploadForm(forms.Form):
+    file_field = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
+    description = forms.CharField(widget=forms.Textarea)
+
+    def process_multiple_files(self):
+        print('Processing multiple files')
+        # TODO implement
