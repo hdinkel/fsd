@@ -36,6 +36,8 @@ class FileList(ListView):
 #         return super().form_valid(form)
 
 def upload_zipfile(request):
+    from django.contrib import messages
+    messages.add_message(request, messages.INFO, 'Hello world.')
     if request.method == 'POST':
         form = ZipfileUploadForm(request.POST, request.FILES)
         if form.is_valid():
