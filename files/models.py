@@ -78,6 +78,8 @@ class File(models.Model):
     def generate_hash(self):
         contents = self.file.read()  # get the contents
         self.hash = create_hash(contents)
+        print("self.hash:",self.hash)
+        return self.hash
 
     def save(self, *args, **kwargs):
         self.generate_hash()
