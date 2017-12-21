@@ -18,6 +18,7 @@ def extract_zipfile(filename, username, project):
     with tempfile.TemporaryDirectory(dir=MEDIA_ROOT) as tmpdirname:
         print("TmpDirName:", tmpdirname)
         for file in z.namelist():
+            print("---")
             print("File2Extract:", file)
             z.extract(file, tmpdirname)
             tmpfilename = os.path.join(tmpdirname, file)
@@ -26,15 +27,15 @@ def extract_zipfile(filename, username, project):
 #                try:
                     with open(tmpfilename,'rb') as file2hash:
                         hash = create_hash(file2hash.read())
-                        print(hash)
+                        print("HASH:", hash)
                     try:
                         f = File.objects.get(hash = hash)
                         print("File {} with the following hash already exists in DB: '{}'".format(f.id, hash))
                     except File.DoesNotExist:
-                        f = File.objects.create(file=tmpfilename, name=file)
-                        f.comment = "bundled upload via zipfile {}".format(filename)
-                        print(f.hash)
-                        print(f.generate_hash())
+                        print('file:', file)
+                        f = File(file=tmpfilename, name=file, comment = "bundled upload via zipfile {}".format(filename))
+                        print("F.HASH:", f.hash)
+#                        print("f.generate_hash():", f.generate_hash()) # causes error
                         f.save()
                         shutil.copy(tmpfilename, MEDIA_ROOT)
 #                except Exception:

@@ -78,12 +78,12 @@ class File(models.Model):
     def generate_hash(self):
         contents = self.file.read()  # get the contents
         self.hash = create_hash(contents)
-        print("self.hash:",self.hash)
+        print("generate self.hash:",self.hash)
         return self.hash
 
     def save(self, *args, **kwargs):
-        self.generate_hash()
 #        super(File, self).save(*args, **kwargs)
+        self.generate_hash()
         self.filesize = self.file.size
         if self.name == '':
             self.name = self.file.name
