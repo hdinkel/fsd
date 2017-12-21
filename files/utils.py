@@ -27,17 +27,18 @@ def extract_zipfile(filename, username, project):
 #                try:
                     with open(tmpfilename,'rb') as file2hash:
                         hash = create_hash(file2hash.read())
-                        print("HASH:", hash)
                     try:
                         f = File.objects.get(hash = hash)
                         print("File {} with the following hash already exists in DB: '{}'".format(f.id, hash))
                     except File.DoesNotExist:
                         print('file:', file)
                         f = File(file=tmpfilename, name=file, comment = "bundled upload via zipfile {}".format(filename))
-                        print("F.HASH:", f.hash)
-#                        print("f.generate_hash():", f.generate_hash()) # causes error
                         f.save()
-                        shutil.copy(tmpfilename, MEDIA_ROOT)
+                        dstdir = os.path.dirname(tmpfilename.replace(tmpdirname, MEDIA_ROOT))
+                        print(dstdir)
+                        if not os.path.isdir(dstdir):
+                            os.makedirs(dstdir)
+                        shutil.copy2(tmpfilename, dstdir)
 #                except Exception:
                     # TODO catch hash collisions (also empty files produce collisions)
 #                    pass
