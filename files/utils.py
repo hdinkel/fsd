@@ -20,6 +20,7 @@ def extract_zipfile(filename, username, project):
         for file in z.namelist():
             print("---")
             print("File2Extract:", file)
+            # TODO: use ZipInfo Objects to get original file dates
             z.extract(file, tmpdirname)
             tmpfilename = os.path.join(tmpdirname, file)
             print("TmpFileName:", tmpfilename)
@@ -32,7 +33,7 @@ def extract_zipfile(filename, username, project):
                         print("File {} with the following hash already exists in DB: '{}'".format(f.id, hash))
                     except File.DoesNotExist:
                         print('file:', file)
-                        f = File(file=tmpfilename, name=file, comment = "bundled upload via zipfile {}".format(filename))
+                        f = File(file=tmpfilename, name=file, comment = "bundled upload via zipfile '{}'".format(filename))
                         f.save()
                         dstdir = os.path.dirname(tmpfilename.replace(tmpdirname, MEDIA_ROOT))
                         print(dstdir)

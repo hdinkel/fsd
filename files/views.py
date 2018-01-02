@@ -37,7 +37,6 @@ class FileList(ListView):
 
 def upload_zipfile(request):
     from django.contrib import messages
-    messages.add_message(request, messages.INFO, 'Hello world.')
     if request.method == 'POST':
         form = ZipfileUploadForm(request.POST, request.FILES)
         if form.is_valid():
@@ -50,6 +49,7 @@ def upload_zipfile(request):
             if not fileext == '.zip':
                 raise ValidationError( ('Not a zipfile: %(filename)s'), code='invalid', params={'filename': filename}, )
             extract_zipfile(filename=filename, username=username, project=project)
+            messages.add_message(request, messages.INFO, 'Zipfile {} successfully extracted.'.format(filename))
             return HttpResponseRedirect('/files/')
     else:
         form = ZipfileUploadForm(user=request.user)
