@@ -20,11 +20,11 @@ def hash_upload(instance, filename):
 def create_hash(data):
     """
     calculate sha256 hash function on given data
-    >>> create_hash("testdata")
-    ce41e5246ead8bddd2a2b5bbb863db250f328be9dc5c3041481d778a32f8130d
+    >>> create_hash('testdata')
+    '810ff2fb242a5dee4220f2cb0e6a519891fb67f2f828a6cab4ef8894633b1f50'
     """
     hash = hashlib.sha256()
-    hash.update(data)
+    hash.update(data.encode('utf-8'))
     return hash.hexdigest()
 
 # Create your models here.
@@ -78,7 +78,7 @@ class File(models.Model):
     def generate_hash(self):
         contents = self.file.read()  # get the contents
         self.hash = create_hash(contents)
-        print("generate self.hash:",self.hash)
+        print("generate self.hash:", self.hash)
         return self.hash
 
     def save(self, *args, **kwargs):
